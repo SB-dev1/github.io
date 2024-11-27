@@ -4,7 +4,7 @@
   "license": "",
   "id": "dataloomchatgptembeddings",
   "version": "1.0.0",
-  "name": "chatGPT SAC",
+  "name": "chatGPT4 SAC - dataLoom",
   "newInstancePrefix": "chatGPTEmbeddings",
   "description": "A custom widget to integrate chatGPT4 in SAC Analytic application",
   "webcomponents": [
