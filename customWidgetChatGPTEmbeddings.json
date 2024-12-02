@@ -11,7 +11,7 @@
     {
       "kind": "main",
       "tag": "custom-widget-chatgpt-embeddings",
-      "url": "https://sb-dev1.github.io/github.io/chatGPTEmbeddings.js",
+      "url": "https://sb-dev1.github.io/github.io/chatGPTCompletions.js",
       "integrity": "",
       "ignoreIntegrity": true
     }
