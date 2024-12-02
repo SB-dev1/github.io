@@ -6,7 +6,7 @@
   "version": "1.0.0",
   "name": "chatGPT4 SAC - dataLoom",
   "newInstancePrefix": "chatGPTCompletions",
-  "description": "A custom widget to integrate chatGPT4 Completions in SAC Analytic application",
+  "description": "A custom widget to integrate chatGPT4 chat completions in SAC Analytic application using the OpenAI API",
   "webcomponents": [
     {
       "kind": "main",
@@ -28,7 +28,7 @@
   },
   "methods": {
     "getCompletions": {
-      "description": "Wrapper for jQuery post to get completions from OpenAI's GPT model",
+      "description": "Wrapper for OpenAI API POST to fetch chat completions using OpenAI's GPT chat model",
       "parameters": [
         {
           "name": "APIKey",
@@ -38,7 +38,7 @@
         {
           "name": "input",
           "type": "string",
-          "description": "The input text that GPT should complete."
+          "description": "The input text that GPT should respond to."
         }
       ],
       "returnType": "string"
