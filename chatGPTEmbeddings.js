@@ -5,7 +5,7 @@ var embeddingAjaxCall = (key, input) => {
       type: "POST",
       dataType: "json",
       data: JSON.stringify({
-        model: "gpt-4o-mini",
+        model: "text-embedding-3-large",
         input: input,
         temperature: 0.2,
       }),
