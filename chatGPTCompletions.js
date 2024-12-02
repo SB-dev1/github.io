@@ -1,7 +1,7 @@
 (function () {
   // Template für das Widget
-  const embeddingTemplate = document.createElement("template");
-  embeddingTemplate.innerHTML = `
+  const completionTemplate = document.createElement("template");
+  completionTemplate.innerHTML = `
       <style>
         #root {
           width: 100%;
@@ -12,19 +12,19 @@
         }
       </style>
       <div id="root">
-        <p>ChatGPT Embedding Widget</p>
+        <p>ChatGPT Completions Widget</p>
       </div>
   `;
 
   // Custom Widget-Klasse
-  class EmbeddingWebComponent extends HTMLElement {
+  class CompletionsWebComponent extends HTMLElement {
     constructor() {
       super();
       this.attachShadow({ mode: "open" });
-      this.shadowRoot.appendChild(embeddingTemplate.content.cloneNode(true));
+      this.shadowRoot.appendChild(completionTemplate.content.cloneNode(true));
     }
 
-    async getEmbeddings(apiKey, input) {
+    async getCompletions(apiKey, input) {
       // Validierung der Eingaben
       if (!apiKey || !input) {
         throw new Error("API key and input are required.");
@@ -33,10 +33,10 @@
       // API-Aufruf zur OpenAI-API
       try {
         const response = await this.callOpenAIAPI(apiKey, input);
-        console.log("Embedding result:", response);
+        console.log("Completion result:", response);
         return response; // Gibt das Ergebnis zurück
       } catch (error) {
-        console.error("Error fetching embeddings:", error);
+        console.error("Error fetching completions:", error);
         throw error;
       }
     }
@@ -45,14 +45,14 @@
     async callOpenAIAPI(apiKey, input) {
       return new Promise((resolve, reject) => {
         $.ajax({
-          url: "https://api.openai.com/v1/embeddings",
+          url: "https://api.openai.com/v1/completions",
           type: "POST",
           dataType: "json",
           data: JSON.stringify({
-            model: "gpt-3.5-turbo-16k",
-            prompt: `Generate embeddings for the following input: ${input}`,
-            temperature: 0.2,
-            max_tokens: 1500
+            model: "gpt-3.5-turbo",
+            prompt: input,
+            max_tokens: 1500,
+            temperature: 0.7
           }),
           headers: {
             "Content-Type": "application/json",
@@ -71,5 +71,5 @@
   }
 
   // Registriere die Custom Webkomponente
-  customElements.define("custom-widget-chatgpt-embeddings", EmbeddingWebComponent);
+  customElements.define("custom-widget-chatgpt-completions", CompletionsWebComponent);
 })();
