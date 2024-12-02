@@ -49,7 +49,7 @@
           type: "POST",
           dataType: "json",
           data: JSON.stringify({
-            model: "gpt-4",
+            model: "GPT-4o",
             prompt: `Generate embeddings for the following input: ${input}`,
             temperature: 0.2,
             max_tokens: 1500
