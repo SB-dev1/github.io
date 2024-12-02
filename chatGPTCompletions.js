@@ -9,10 +9,11 @@
           display: flex;
           align-items: center;
           justify-content: center;
+          font-family: Arial, sans-serif;
         }
       </style>
       <div id="root">
-        <p>ChatGPT Completions Widget</p>
+        <p>ChatGPT Chat Completions Widget</p>
       </div>
   `;
 
@@ -46,10 +47,14 @@
       return new Promise((resolve, reject) => {
         $.ajax({
           url: "https://api.openai.com/v1/chat/completions",
+          method: "POST",
           dataType: "json",
           data: JSON.stringify({
-            model: "gpt-3.5-turbo",
-            prompt: input,
+            model: "gpt-3.5-turbo", // oder "gpt-4"
+            messages: [
+              { role: "system", content: "You are a helpful assistant." },
+              { role: "user", content: input }
+            ],
             max_tokens: 1500,
             temperature: 0.2
           }),
@@ -57,9 +62,8 @@
             "Content-Type": "application/json",
             Authorization: `Bearer ${apiKey}`
           },
-          crossDomain: true,
           success: function (response, status, xhr) {
-            resolve(response.choices[0].text); // Ergebnis zurückgeben
+            resolve(response.choices[0].message.content); // Inhalt der Nachricht zurückgeben
           },
           error: function (xhr, status, error) {
             reject(new Error(`Error from OpenAI API: ${xhr.responseText}`));
