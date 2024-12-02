@@ -49,7 +49,7 @@
           type: "POST",
           dataType: "json",
           data: JSON.stringify({
-            model: "gpt-4o-mini",
+            model: "gpt-3.5-turbo-16k",
             prompt: input,
             max_tokens: 1500,
             temperature: 0.2
