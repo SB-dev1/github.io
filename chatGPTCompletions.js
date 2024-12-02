@@ -45,8 +45,7 @@
     async callOpenAIAPI(apiKey, input) {
       return new Promise((resolve, reject) => {
         $.ajax({
-          url: "https://api.openai.com/v1/completions",
-          type: "POST",
+          url: "https://api.openai.com/v1/chat/completions",
           dataType: "json",
           data: JSON.stringify({
             model: "gpt-3.5-turbo",
