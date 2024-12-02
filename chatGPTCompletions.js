@@ -45,7 +45,7 @@
     async callOpenAIAPI(apiKey, input) {
       return new Promise((resolve, reject) => {
         $.ajax({
-          url: "https://api.openai.com/v1/completions",
+          url: "https://api.openai.com/v1/embeddings",
           type: "POST",
           dataType: "json",
           data: JSON.stringify({
