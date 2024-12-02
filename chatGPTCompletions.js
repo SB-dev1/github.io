@@ -1,53 +1,75 @@
-var analyzeDataModel = async (apiKey, input) => {
-  return new Promise((resolve, reject) => {
-    $.ajax({
-      url: "https://api.openai.com/v1/completions",
-      type: "POST",
-      dataType: "json",
-      data: JSON.stringify({
-        model: "gpt-4", // Das empfohlene Modell
-        prompt: `Analyze the following data model and suggest transformations or insights: ${input}`,
-        temperature: 0.2, // Kontrolle der Kreativität des Outputs
-        max_tokens: 1000, // Maximale Länge der Antwort
-      }),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${apiKey}`,
-      },
-      crossDomain: true,
-      success: function (response, status, xhr) {
-        resolve(response.choices[0].text); // Rückgabe der Analyse
-      },
-      error: function (xhr, status, error) {
-        reject(new Error(`Error analyzing data model: ${xhr.responseText}`));
-      },
-    });
-  });
-};
+(function () {
+  // Template für das Widget
+  const embeddingTemplate = document.createElement("template");
+  embeddingTemplate.innerHTML = `
+      <style>
+        #root {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      </style>
+      <div id="root">
+        <p>ChatGPT Embedding Widget</p>
+      </div>
+  `;
 
-var scenarioPlanning = async (apiKey, input, scenario) => {
-  return new Promise((resolve, reject) => {
-    $.ajax({
-      url: "https://api.openai.com/v1/completions",
-      type: "POST",
-      dataType: "json",
-      data: JSON.stringify({
-        model: "gpt-4", // Szenarioplanung mit GPT-4
-        prompt: `Based on the input data: ${input}, generate a scenario planning for: ${scenario}`,
-        temperature: 0.2,
-        max_tokens: 1500,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${apiKey}`,
-      },
-      crossDomain: true,
-      success: function (response, status, xhr) {
-        resolve(response.choices[0].text); // Rückgabe der Szenarioplanung
-      },
-      error: function (xhr, status, error) {
-        reject(new Error(`Error in scenario planning: ${xhr.responseText}`));
-      },
-    });
-  });
-};
+  // Custom Widget-Klasse
+  class EmbeddingWebComponent extends HTMLElement {
+    constructor() {
+      super();
+      this.attachShadow({ mode: "open" });
+      this.shadowRoot.appendChild(embeddingTemplate.content.cloneNode(true));
+    }
+
+    async getEmbeddings(apiKey, input) {
+      // Validierung der Eingaben
+      if (!apiKey || !input) {
+        throw new Error("API key and input are required.");
+      }
+
+      // API-Aufruf zur OpenAI-API
+      try {
+        const response = await this.callOpenAIAPI(apiKey, input);
+        console.log("Embedding result:", response);
+        return response; // Gibt das Ergebnis zurück
+      } catch (error) {
+        console.error("Error fetching embeddings:", error);
+        throw error;
+      }
+    }
+
+    // Helfermethode für den OpenAI API-Aufruf
+    async callOpenAIAPI(apiKey, input) {
+      return new Promise((resolve, reject) => {
+        $.ajax({
+          url: "https://api.openai.com/v1/completions",
+          type: "POST",
+          dataType: "json",
+          data: JSON.stringify({
+            model: "gpt-4",
+            prompt: `Generate embeddings for the following input: ${input}`,
+            temperature: 0.2,
+            max_tokens: 1500
+          }),
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${apiKey}`
+          },
+          crossDomain: true,
+          success: function (response, status, xhr) {
+            resolve(response.choices[0].text); // Ergebnis zurückgeben
+          },
+          error: function (xhr, status, error) {
+            reject(new Error(`Error from OpenAI API: ${xhr.responseText}`));
+          }
+        });
+      });
+    }
+  }
+
+  // Registriere die Custom Webkomponente
+  customElements.define("custom-widget-chatgpt-embeddings", EmbeddingWebComponent);
+})();
