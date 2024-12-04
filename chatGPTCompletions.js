@@ -50,7 +50,7 @@
           method: "POST",
           dataType: "json",
           data: JSON.stringify({
-            model: "gpt-4", // oder "gpt-4"
+            model: "gpt-4o-mini", // oder "gpt-4"
             messages: [
               { role: "system", content: "You are a helpful assistant." },
               { role: "user", content: input }
